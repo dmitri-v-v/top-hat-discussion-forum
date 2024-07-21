@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
 import { app } from 'app'
+import { seedUsers } from 'data/seedDB'
 
 dotenv.config()
 
@@ -12,9 +13,9 @@ async function startServer() {
         await mongoose.connect(process.env.MONGODB_URI!)
         console.log('Connected to MongoDB Atlas')
 
-          app.listen(PORT, () => {
-            console.log(`Server listening on http://localhost:${PORT}`);
-          });
+        await seedUsers()
+
+        app.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`))
     } catch (error) {
         console.error('Error starting server:', error)
         process.exit(1)

@@ -1,0 +1,50 @@
+[
+    {
+        "userName": "aEinstein",
+        "firstName": "Albert",
+        "lastName": "Einstein",
+        "type": 1
+    },
+    {
+        "userName": "nChomsky",
+        "firstName": "Noam",
+        "lastName": "Chomsky",
+        "type": 1
+    },
+    {
+        "userName": "sHawking",
+        "firstName": "Stephen",
+        "lastName": "Hawking",
+        "type": 1
+    },
+    {
+        "userName": "rFeynman",
+        "firstName": "Richard",
+        "lastName": "Feynman",
+        "type": 1
+    },
+    {
+        "userName": "willHunting",
+        "firstName": "Will",
+        "lastName": "Hunting",
+        "type": 2
+    },
+    {
+        "userName": "harryPotter",
+        "firstName": "Harry",
+        "lastName": "Potter",
+        "type": 2
+    },
+    {
+        "userName": "lukeSkywalker",
+        "firstName": "Luke",
+        "lastName": "Skywalker",
+        "type": 2
+    },
+    {
+        "userName": "bruceWayne",
+        "firstName": "Bruce",
+        "lastName": "Wayne",
+        "type": 2
+    }
+]
