@@ -1,8 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express'
 
+import { userRoutes } from 'routes'
 import { getHealthStatus } from 'services/healthService'
 
-export const app = express()
+const app = express()
 
 app.use(express.json())
 
@@ -26,3 +27,8 @@ app.get('/health', async (req, res) => {
         res.status(500).json({ error: 'An error occurred connecting to the DB.' })
     }
 })
+
+/** -------------------------- User-related routes to aid with using the rest of the API. -------------------------- */
+app.use('/users', userRoutes)
+
+export default app

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
-import { app } from 'app'
+import App from 'app'
 import { seedUsers } from 'data/seedDB'
 
 dotenv.config()
@@ -15,7 +15,7 @@ async function startServer() {
 
         await seedUsers()
 
-        app.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`))
+        App.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`))
     } catch (error) {
         console.error('Error starting server:', error)
         process.exit(1)
