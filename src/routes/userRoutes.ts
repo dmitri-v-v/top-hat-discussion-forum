@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         res.status(200).json(usersResponse)
     } catch (error) {
         console.error('Error fetching Users:', error)
-        res.status(500).json({ message: 'Failed to get Users.' })
+        res.status(500).json({ error: 'Failed to get Users.' })
     }
 })
 
@@ -30,7 +30,7 @@ router.get('/:userName', async (req, res) => {
         const user = await User.findOne({ userName }).lean().exec()
 
         if (!user) {
-            return res.status(404).json({ error: `No User with userName ${userName}` })
+            return res.status(404).json({ message: `No User with userName ${userName}` })
         }
 
         const userResponse = {

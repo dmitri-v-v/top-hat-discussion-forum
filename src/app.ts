@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 
-import { userRoutes } from 'routes'
+import { discussionRoutes, userRoutes } from 'routes'
 import { getHealthStatus } from 'services/healthService'
 
 const app = express()
@@ -22,6 +22,9 @@ app.get('/health', async (req, res) => {
 
 /** -------------------------- User-related routes to aid with using the rest of the API. -------------------------- */
 app.use('/users', userRoutes)
+
+/** --------------------------- Discussion-related routes to create and list Discussions. --------------------------- */
+app.use('/discussions', discussionRoutes)
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
