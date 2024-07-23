@@ -1,5 +1,11 @@
 import Health from 'models/health'
 
+/**
+ * Performs a health check on the database by creating, retrieving, and deleting a temporary document.
+ *
+ * @param statusOverride Optional status to override the default 'healthy' status.
+ * @returns The status of the health check, either 'healthy' or the overridden status.
+ */
 export const getHealthStatus = async (statusOverride?: string) => {
     const status = statusOverride ?? 'healthy'
     try {

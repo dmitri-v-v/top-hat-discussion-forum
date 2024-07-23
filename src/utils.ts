@@ -1,6 +1,13 @@
 import { IComment } from 'models/comment'
 import { CommentObject } from 'models/response'
 
+/**
+ * Builds a tree structure from a flat array of comments. Each comment can have a parent comment and an array of
+ * replies.
+ *
+ * @param comments The array of comments to build the tree from.
+ * @returns The root comment array with their nested replies.
+ */
 export function buildCommentTree(comments: IComment[]): CommentObject[] {
     const commentMap = new Map<string, CommentObject>()
     const rootComments: CommentObject[] = []

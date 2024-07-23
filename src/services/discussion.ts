@@ -7,6 +7,16 @@ import { DiscussionDetailsResponse, DiscussionsResponse } from 'models/response'
 import { User, UserType } from 'models/user'
 import { buildCommentTree } from 'utils'
 
+/**
+ * Creates a new discussion.  If the user is valid and a professor, it creates and saves a new discussion with the given
+ * subject and content.
+ *
+ *
+ * @param userId The ID of the professor creating the discussion.
+ * @param subject The subject of the discussion.
+ * @param content The content of the discussion.
+ * @returns The created discussion document.
+ */
 export async function createDiscussion(userId: string, subject: string, content: string): Promise<IDiscussion> {
     // Check if the user exists and is a professor:
     const user = await User.findById(userId).select('_id userName type')
@@ -27,6 +37,12 @@ export async function createDiscussion(userId: string, subject: string, content:
     return discussion
 }
 
+/**
+ * Retrieves all active discussions.
+ *
+ * @returns Active discussions sorted by last updated date (which would include the last time a comment was made). Each
+ * discussion item contains the subject, author, last comment date, comment count, and a URL to the comments.
+ */
 export async function getDiscussions(): Promise<DiscussionsResponse[]> {
     const discussions = await DiscussionModel.find({ isArchived: { $ne: true } })
         .select('_id subject userName lastCommentAt updatedAt commentCount')
@@ -43,6 +59,24 @@ export async function getDiscussions(): Promise<DiscussionsResponse[]> {
     }))
 }
 
+/**
+ * Adds a comment to a discussion or as a reply to another comment, and updates the associated Discussion and Comment
+ * entries as necessary. Everything is done in one transaction, so either all inserts & updates succeed, or none do. It
+ * also:
+ * - Verifies the existence of the parent comment if specified.
+ * - Updates the discussion's lastCommentAt, commentCount, and comments array.
+ * - Updates the parent comment's replies array if this is a reply.
+ *
+ * @param discussionId The ID of the discussion to which the comment is being added.
+ * @param userId The ID of the user adding the comment.
+ * @param userName  The user name of the user adding the comment.
+ * @param content The comment message itself.
+ * @param parentCommentId (Optional) The ID of the parent comment if this is a reply. Omit when adding a top-level
+ * comment.
+ * @returns The newly added Comment.
+ * @throws Throws an error if the parent comment does not exist, if the discussion update fails, or if the
+ *         parent comment update fails.
+ */
 export async function addComment(
     discussionId: string,
     userId: string,
@@ -108,6 +142,17 @@ export async function addComment(
     }
 }
 
+/**
+ * Retrieves a discussion along with its comments, structured in a tree format. Specifically, it performs the following
+ * operations:
+ * - Finds the Discussion document and selects specific fields (userName, subject, content, comments, commentCount).
+ * - Populates the comments, excluding deleted comments, and sorts them by comment date in ascending order.
+ * - Builds a comment tree from the retrieved comments.
+ *
+ * @param discussionId The ID of the discussion to retrieve.
+ * @returns
+ * @throws Throws an error if the discussion is not found or is archived.
+ */
 export async function getDiscussionWithComments(discussionId: string): Promise<DiscussionDetailsResponse> {
     const discussion = await DiscussionModel.findOne({ _id: discussionId, isArchived: false })
         .select('userName subject content comments commentCount')

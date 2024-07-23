@@ -28,6 +28,20 @@ export class AppError extends Error {
     }
 }
 
+/**
+ * Error handling middleware for handling custom application errors as well as generic errors:
+ * - If the status code is less than 500, it sends a JSON response with the external message and the status code.
+ * - If the status code is 500 or higher, it logs the internal message and sends a JSON response with the external
+ * message.
+ * - For generic errors, it logs a generic message and sends a JSON response with a 500 status code.
+ *
+ *
+ * @param err The error object, which can be a custom AppError or a generic Error.
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 export const errorHandler = (err: AppError | Error, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof AppError) {
         if (err.statusCode < 500) {

@@ -30,7 +30,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-/** ---------------------- Adds a new comment to a discussion. ---------------------- */
+/** -------------------------------------- Adds a new comment to a discussion. -------------------------------------- */
 router.post('/:discussionId/comments', async (req, res, next) => {
     try {
         const { discussionId } = req.params
@@ -54,7 +54,7 @@ router.post('/:discussionId/comments', async (req, res, next) => {
     }
 })
 
-/** ---------------------- Gets all the comments for a discussion as a tree. ---------------------- */
+/** ------------------------------- Gets all the comments for a discussion as a tree. ------------------------------- */
 router.get('/:discussionId/comments', async (req, res, next) => {
     try {
         const { discussionId } = req.params
