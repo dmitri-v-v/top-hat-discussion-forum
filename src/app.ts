@@ -1,12 +1,16 @@
 import express, { Request, Response, NextFunction } from 'express'
+import bodyParser from 'body-parser'
 
 import { errorHandler } from './errorHandler'
+import { setupSwagger } from './swagger'
 import { discussionRoutes, userRoutes } from 'routes'
 import { getHealthStatus } from 'services/health'
 
 const app = express()
 
-app.use(express.json())
+app.use(bodyParser.json())
+
+setupSwagger(app)
 
 app.get('/', (req, res) => {
     res.send('<h1>Discussion Forum app is running.</h1>')
