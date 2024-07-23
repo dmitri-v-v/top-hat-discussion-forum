@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 
 import { errorHandler } from './errorHandler'
 import { discussionRoutes, userRoutes } from 'routes'
-import { getHealthStatus } from 'services/healthService'
+import { getHealthStatus } from 'services/health'
 
 const app = express()
 

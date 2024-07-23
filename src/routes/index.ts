@@ -1,2 +1,2 @@
-export { default as userRoutes } from 'routes/userRoutes'
-export { default as discussionRoutes } from 'routes/discussionRoutes'
+export { default as userRoutes } from 'routes/user'
+export { default as discussionRoutes } from 'routes/discussion'
