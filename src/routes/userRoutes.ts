@@ -1,11 +1,12 @@
 import { Router } from 'express'
 
+import { AppError } from 'errorHandler'
 import { User, UserType } from 'models/user'
 
 const router = Router()
 
 /** -------------- Endpoint to list all existing users (userName, firstName, lastName, and type only). -------------- */
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const users = await User.find({}, 'userName firstName lastName type').lean().exec()
 
@@ -18,20 +19,17 @@ router.get('/', async (req, res) => {
 
         res.status(200).json(usersResponse)
     } catch (error) {
-        console.error('Error fetching Users:', error)
-        res.status(500).json({ error: 'Failed to get Users.' })
+        next(new AppError(500, 'Error fetching Users:', 'Failed to get Users'))
     }
 })
 
 /** ------------------------------- Endpoint to get a User's id given their userName. -------------------------------*/
-router.get('/:userName', async (req, res) => {
+router.get('/:userName', async (req, res, next) => {
     try {
         const userName = req.params.userName
         const user = await User.findOne({ userName }).lean().exec()
 
-        if (!user) {
-            return res.status(404).json({ message: `No User with userName ${userName}` })
-        }
+        if (!user) throw new AppError(404, `No User with userName ${userName}`)
 
         const userResponse = {
             id: user._id.toString(),
@@ -41,9 +39,8 @@ router.get('/:userName', async (req, res) => {
         }
 
         res.status(200).json(userResponse)
-    } catch (error) {
-        console.error('Error getting User data:', error)
-        res.status(500).json({ error: 'Failed to get User data.' })
+    } catch (err) {
+        next(err instanceof AppError ? err : new AppError(500, 'Error getting User data:', 'Failed to get User data.'))
     }
 })
 

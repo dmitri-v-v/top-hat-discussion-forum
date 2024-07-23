@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 
+import { errorHandler } from './errorHandler'
 import { discussionRoutes, userRoutes } from 'routes'
 import { getHealthStatus } from 'services/healthService'
 
@@ -26,12 +27,7 @@ app.use('/users', userRoutes)
 /** --------------------------- Discussion-related routes to create and list Discussions. --------------------------- */
 app.use('/discussions', discussionRoutes)
 
-// Error handling middleware
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.message)
-    console.error(err.stack) // Also log error stack for debugging
-
-    res.status(500).json({ error: err.message })
-})
+// Error handling middleware:
+app.use(errorHandler)
 
 export default app
