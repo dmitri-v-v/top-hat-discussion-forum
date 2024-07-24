@@ -5,8 +5,8 @@ export enum UserType {
     STUDENT = 2,
 }
 
-interface IUser extends Document {
-    id: string
+export interface IUser extends Document {
+    _id: Schema.Types.ObjectId
     userName: string
     firstName: string
     lastName: string
